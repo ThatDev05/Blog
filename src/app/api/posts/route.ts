@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const posts = await prisma.post.findMany({
@@ -15,7 +17,7 @@ export async function GET() {
     });
 
     // Transform to match frontend BlogPost interface partially
-    const transformedPosts = posts.map(post => ({
+    const transformedPosts = posts.map((post: { id: string, title: string, content: string, author: { image: string | null, name: string | null }, createdAt: Date }) => ({
         id: post.id,
         title: post.title,
         description: post.content.substring(0, 150) + "...",

@@ -1,0 +1,55 @@
+﻿node.exe :  ΓÜá You are using a non-standard "NODE_ENV" value 
+in your environment. This creates inconsistencies in the 
+project and is strongly advised against. Read more: 
+https://nextjs.org/docs/messages/non-standard-node-env
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá You are us... 
+   andard-node-env:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Γû▓ Next.js 15.1.0
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+Error occurred prerendering page "/_not-found". Read more: 
+https://nextjs.org/docs/messages/prerender-error
+TypeError: Cannot read properties of null (reading 'useState')
+    at t.useState (C:\Deep Bhattachaejee\CODE\All full stack pro
+jects\Blog\node_modules\next\dist\compiled\next-server\app-page.
+runtime.prod.js:68:6936)
+    at c (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\.next\server\chunks\691.js:1:1473)
+    at react-stack-bottom-frame (C:\Deep Bhattachaejee\CODE\All 
+full stack projects\Blog\node_modules\next\dist\compiled\next-se
+rver\app-page.runtime.dev.js:25:229305)
+    at renderWithHooks (C:\Deep Bhattachaejee\CODE\All full 
+stack projects\Blog\node_modules\next\dist\compiled\next-server\
+app-page.runtime.dev.js:25:66965)
+    at renderElement (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\node_modules\next\dist\compiled\next-server\app-pa
+ge.runtime.dev.js:25:81693)
+    at renderElement (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\node_modules\next\dist\compiled\next-server\app-pa
+ge.runtime.dev.js:25:135151)
+    at retryNode (C:\Deep Bhattachaejee\CODE\All full stack proj
+ects\Blog\node_modules\next\dist\compiled\next-server\app-page.r
+untime.dev.js:25:140140)
+    at renderNodeDestructive (C:\Deep Bhattachaejee\CODE\All 
+full stack projects\Blog\node_modules\next\dist\compiled\next-se
+rver\app-page.runtime.dev.js:25:136545)
+    at renderNode (C:\Deep Bhattachaejee\CODE\All full stack pro
+jects\Blog\node_modules\next\dist\compiled\next-server\app-page.
+runtime.dev.js:25:149261)
+    at renderChildrenArray (C:\Deep Bhattachaejee\CODE\All full 
+stack projects\Blog\node_modules\next\dist\compiled\next-server\
+app-page.runtime.dev.js:25:146724)
+Export encountered an error on /_not-found/page: /_not-found, 
+exiting the build.
+ Γ¿» Static worker exited with code: 1 and signal: null
+

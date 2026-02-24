@@ -5,6 +5,8 @@ import Link from "next/link";
 import { CSSProperties } from "react";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 async function getRecentPosts() {
   try {
     const posts = await prisma.post.findMany({
@@ -17,7 +19,7 @@ async function getRecentPosts() {
       },
     });
 
-    return posts.map(post => ({
+    return posts.map((post: { id: string, title: string, content: string, author: { image: string | null, name: string | null }, createdAt: Date }) => ({
         id: post.id,
         title: post.title,
         description: post.content.substring(0, 150) + "...",
@@ -57,7 +59,7 @@ export default async function Home() {
           </p>
 
           <ul className="has-scrollbar">
-            {featuredPosts.map((post, index) => (
+            {featuredPosts.map((post: import("@/lib/data").BlogPost, index: number) => (
               <li className="scrollbar-item" key={`${post.id}-${index}`}>
                 <PostCard post={post} />
               </li>
@@ -113,7 +115,7 @@ export default async function Home() {
 
           <ul className="grid-list">
             {recentPosts.length > 0 ? (
-                recentPosts.map((post, index) => (
+                recentPosts.map((post: import("@/lib/data").BlogPost, index: number) => (
                 <li key={`${post.id}-${index}`}>
                     <PostCard post={post} />
                 </li>
@@ -135,7 +137,7 @@ export default async function Home() {
           </p>
 
           <ul className="grid-list">
-            {recommendedPosts.map((post, index) => (
+            {recommendedPosts.map((post: import("@/lib/data").BlogPost, index: number) => (
               <li key={`${post.id}-${index}`}>
                 <PostCard post={post} compact={true} />
               </li>

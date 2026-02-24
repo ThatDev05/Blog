@@ -1,0 +1,47 @@
+﻿
+> blogy-next@0.1.0 build
+> prisma generate && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+Γ£ö Generated Prisma Client (v5.22.0) to .\node_modules\@prisma\client in 63ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate
+
+node.exe :  ΓÜá You are using a non-standard "NODE_ENV" value 
+in your environment. This creates inconsistencies in the 
+project and is strongly advised against. Read more: 
+https://nextjs.org/docs/messages/non-standard-node-env
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá You are us... 
+   andard-node-env:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Γû▓ Next.js 15.1.7
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./src/app/api/posts/route.ts
+31:12  Error: 'error' is defined but never used.  
+@typescript-eslint/no-unused-vars
+
+./src/app/blog/[id]/page.tsx
+6:8  Error: 'Link' is defined but never used.  
+@typescript-eslint/no-unused-vars
+25:12  Error: 'error' is defined but never used.  
+@typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: http
+s://nextjs.org/docs/app/api-reference/config/eslint#disabling-ru
+les
+

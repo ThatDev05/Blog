@@ -6,6 +6,8 @@ import { CSSProperties } from "react";
 import { featuredPosts, recommendedPosts } from "@/lib/data"; // Fallback/Sidebar data
 import PostCard from "@/app/components/PostCard";
 
+export const dynamic = 'force-dynamic';
+
 interface BlogPostPageProps {
   params: Promise<{ id: string }>;
 }
@@ -77,7 +79,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                  <h1 className="h2" style={{ marginBottom: "20px" }}>{post.title}</h1>
 
                  <div className="post-content" style={{ fontSize: "1.8rem", lineHeight: "1.8" }}>
-                    {post.content.split('\n').map((paragraph, index) => (
+                    {post.content.split('\n').map((paragraph: string, index: number) => (
                         <p key={index} style={{ marginBottom: "15px" }}>{paragraph}</p>
                     ))}
                  </div>

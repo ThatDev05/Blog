@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import ClientLayout from "./components/ClientLayout";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,9 +14,6 @@ export const metadata: Metadata = {
   description: "Blogy - Hey, we’re Blogy. See our thoughts, stories and ideas.",
 };
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,9 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable}`}>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

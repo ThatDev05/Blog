@@ -1,0 +1,58 @@
+﻿node.exe :  ΓÜá You are using a non-standard "NODE_ENV" value 
+in your environment. This creates inconsistencies in the 
+project and is strongly advised against. Read more: 
+https://nextjs.org/docs/messages/non-standard-node-env
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá You are us... 
+   andard-node-env:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Γû▓ Next.js 15.1.0
+   - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/layout.tsx
+Error:   [31mx[0m `ssr: false` is not allowed with 
+`next/dynamic` in Server Components. Please move it into a 
+client component.
+   ,-[[36;1;4mC:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\src\app\layout.tsx[0m:6:1]
+ [2m3[0m | import dynamicImport from "next/dynamic";
+ [2m4[0m | import "./globals.css";
+ [2m5[0m | 
+ [2m6[0m | const Header = dynamicImport(() => 
+import("./components/Header"), { ssr: false });
+   : [35;1m               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m7[0m | const Footer = dynamicImport(() => 
+import("./components/Footer"), { ssr: false });
+ [2m8[0m | 
+ [2m9[0m | const inter = Inter({
+   `----
+  [31mx[0m `ssr: false` is not allowed with `next/dynamic` in 
+Server Components. Please move it into a client component.
+    ,-[[36;1;4mC:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\src\app\layout.tsx[0m:7:1]
+ [2m 4[0m | import "./globals.css";
+ [2m 5[0m | 
+ [2m 6[0m | const Header = dynamicImport(() => 
+import("./components/Header"), { ssr: false });
+ [2m 7[0m | const Footer = dynamicImport(() => 
+import("./components/Footer"), { ssr: false });
+    : [35;1m               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+ [2m 8[0m | 
+ [2m 9[0m | const inter = Inter({
+ [2m10[0m |   variable: "--ff-inter",
+    `----
+
+Import trace for requested module:
+./src/app/layout.tsx
+
+
+> Build failed because of webpack errors
+
