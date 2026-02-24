@@ -3,17 +3,26 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
 
 export default function Header() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === "authenticated";
+
   const [navActive, setNavActive] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleNav = () => setNavActive((prev) => !prev);
   const closeNav = () => setNavActive(false);
-
   const toggleSearch = () => setSearchActive((prev) => !prev);
-  const closeSearch = () => setSearchActive(false);
+  const closeSearch = () => {
+    setSearchActive(false);
+    setSearchQuery("");
+  };
 
   useEffect(() => {
     if (searchActive) {
@@ -22,6 +31,19 @@ export default function Header() {
       document.body.classList.remove("active");
     }
   }, [searchActive]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (!q) return;
+    closeSearch();
+    router.push(`/search?q=${encodeURIComponent(q)}`);
+  };
+
+  const handleLogout = async () => {
+    closeNav();
+    await signOut({ callbackUrl: "/" });
+  };
 
   return (
     <>
@@ -39,63 +61,88 @@ export default function Header() {
           <nav className={`navbar ${navActive ? "active" : ""}`} data-navbar>
             <ul className="navbar-list">
               <li className="navbar-item">
-                <Link
-                  href="/"
-                  className="navbar-link hover:underline"
-                  onClick={closeNav}
-                >
+                <Link href="/" className="navbar-link hover:underline" onClick={closeNav}>
                   Home
                 </Link>
               </li>
 
               <li className="navbar-item">
-                <Link
-                  href="#recent-posts"
-                  className="navbar-link hover:underline"
-                  onClick={closeNav}
-                >
-                  Recent Post
+                <Link href="/#recent-posts" className="navbar-link hover:underline" onClick={closeNav}>
+                  Recent Posts
                 </Link>
               </li>
 
-              <li className="navbar-item">
-                <Link
-                  href="/create"
-                  className="navbar-link hover:underline"
-                  onClick={closeNav}
-                >
-                  Create Post
-                </Link>
-              </li>
+              {/* Show Create Post only when logged in */}
+              {isLoggedIn && (
+                <li className="navbar-item">
+                  <Link href="/create" className="navbar-link hover:underline" onClick={closeNav}>
+                    Create Post
+                  </Link>
+                </li>
+              )}
 
-              <li className="navbar-item">
-                <Link
-                  href="/login"
-                  className="navbar-link hover:underline"
-                  onClick={closeNav}
-                >
-                  Login
-                </Link>
-              </li>
+              {/* Show Login/Register only when logged OUT */}
+              {!isLoggedIn && (
+                <>
+                  <li className="navbar-item">
+                    <Link href="/login" className="navbar-link hover:underline" onClick={closeNav}>
+                      Login
+                    </Link>
+                  </li>
+                  <li className="navbar-item">
+                    <Link href="/register" className="navbar-link hover:underline" onClick={closeNav}>
+                      Register
+                    </Link>
+                  </li>
+                </>
+              )}
 
-              <li className="navbar-item">
-                <Link
-                  href="/register"
-                  className="navbar-link hover:underline"
-                  onClick={closeNav}
-                >
-                  Register
-                </Link>
-              </li>
+              {/* Show user name + Logout when logged IN */}
+              {isLoggedIn && session?.user?.name && (
+                <li className="navbar-item">
+                  <Link
+                    href={`/author/${encodeURIComponent(session.user.name)}`}
+                    className="navbar-link hover:underline"
+                    onClick={closeNav}
+                    style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                  >
+                    {session.user.image && (
+                      <Image
+                        src={session.user.image}
+                        width={28}
+                        height={28}
+                        alt={session.user.name}
+                        style={{ borderRadius: "50%" }}
+                      />
+                    )}
+                    {session.user.name}
+                  </Link>
+                </li>
+              )}
+
+              {isLoggedIn && (
+                <li className="navbar-item">
+                  <button
+                    className="navbar-link hover:underline"
+                    onClick={handleLogout}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "inherit",
+                      font: "inherit",
+                      padding: 0,
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              )}
             </ul>
           </nav>
 
           <div className="wrapper">
-            <button
-              className="search-btn"
-              aria-label="search"
-              onClick={toggleSearch}
-            >
+            <button className="search-btn" aria-label="search" onClick={toggleSearch}>
               <IoSearchOutline className="ion-icon" strokeWidth="50" aria-hidden="true" />
               <span className="span">Search</span>
             </button>
@@ -113,30 +160,34 @@ export default function Header() {
         </div>
       </header>
 
+      {/* Search bar */}
       <div className={`search-bar ${searchActive ? "active" : ""}`} data-search-bar>
-        <div className="input-wrapper">
+        <form className="input-wrapper" onSubmit={handleSearch}>
           <input
             type="search"
             name="search"
-            placeholder="Search"
+            placeholder="Search posts..."
             className="input-field"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            autoFocus={searchActive}
           />
-
           <button
             className="search-close-btn"
+            type="button"
             aria-label="close search bar"
             onClick={closeSearch}
           >
             <IoCloseOutline className="ion-icon" strokeWidth="20" aria-hidden="true" />
           </button>
-        </div>
+        </form>
       </div>
 
       <div
         className={`overlay ${searchActive ? "active" : ""}`}
         data-overlay
         onClick={closeSearch}
-      ></div>
+      />
     </>
   );
 }
