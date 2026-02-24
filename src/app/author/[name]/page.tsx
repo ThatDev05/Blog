@@ -1,6 +1,8 @@
 import { getPostsByAuthor } from "@/app/actions/posts";
 import PostCard from "@/app/components/PostCard";
+import LogoutButton from "@/app/components/LogoutButton";
 import Image from "next/image";
+import { auth } from "@/auth";
 import type { Metadata } from "next";
 
 interface AuthorPageProps {
@@ -21,7 +23,11 @@ export const revalidate = 60;
 export default async function AuthorPage({ params }: AuthorPageProps) {
   const { name } = await params;
   const authorName = decodeURIComponent(name);
-  const posts = await getPostsByAuthor(authorName);
+  const [posts, session] = await Promise.all([
+    getPostsByAuthor(authorName),
+    auth(),
+  ]);
+  const isOwnProfile = session?.user?.name === authorName;
 
   return (
     <article>
@@ -46,6 +52,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
             <p style={{ color: "var(--eerie-black_60)", marginTop: "6px" }}>
               {posts.length} published {posts.length === 1 ? "post" : "posts"}
             </p>
+            {isOwnProfile && <LogoutButton />}
           </div>
         </div>
       </section>

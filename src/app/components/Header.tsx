@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
 
 export default function Header() {
@@ -40,10 +40,7 @@ export default function Header() {
     router.push(`/search?q=${encodeURIComponent(q)}`);
   };
 
-  const handleLogout = async () => {
-    closeNav();
-    await signOut({ callbackUrl: "/" });
-  };
+
 
   return (
     <>
@@ -120,24 +117,7 @@ export default function Header() {
                 </li>
               )}
 
-              {isLoggedIn && (
-                <li className="navbar-item">
-                  <button
-                    className="navbar-link hover:underline"
-                    onClick={handleLogout}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "inherit",
-                      font: "inherit",
-                      padding: 0,
-                    }}
-                  >
-                    Logout
-                  </button>
-                </li>
-              )}
+
             </ul>
           </nav>
 
