@@ -4,8 +4,13 @@ export async function uploadToGithub(base64Image: string, fileName: string) {
   const repo = process.env.GITHUB_REPO_NAME;
   const branch = process.env.GITHUB_BRANCH || "main";
 
-  if (!token || !owner || !repo) {
-    throw new Error("Missing GitHub configuration in environment variables.");
+  const missing = [];
+  if (!token) missing.push("GITHUB_TOKEN");
+  if (!owner) missing.push("GITHUB_REPO_OWNER");
+  if (!repo) missing.push("GITHUB_REPO_NAME");
+
+  if (missing.length > 0) {
+    throw new Error(`Missing GitHub configuration: ${missing.join(", ")} in .env file.`);
   }
 
   // Remove the data:image/png;base64, part if it exists
