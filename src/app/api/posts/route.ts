@@ -28,7 +28,7 @@ export async function GET() {
     }));
 
     return NextResponse.json(transformedPosts);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Error fetching posts" }, { status: 500 });
   }
 }

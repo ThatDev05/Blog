@@ -3,7 +3,6 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { CSSProperties } from "react";
-import Link from "next/link";
 import { featuredPosts, recommendedPosts } from "@/lib/data"; // Fallback/Sidebar data
 import PostCard from "@/app/components/PostCard";
 
@@ -22,7 +21,7 @@ async function getPost(id: string) {
       },
     });
     return post;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
