@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div style={{ maxWidth: "800px", margin: "0 auto" }}>
                  <figure className="img-holder" style={{ "--width": 800, "--height": 450, borderRadius: "20px", marginBottom: "30px" } as CSSProperties}>
                     <Image
-                        src="/images/featured-1.jpg" // Placeholder for now
+                        src={post.imageUrl || "/images/featured-1.jpg"}
                         width={800}
                         height={450}
                         alt={post.title}
@@ -87,7 +87,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     />
                  </figure>
 
-                 <div className="post-meta" style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "15px" }}>
+                 <div className="post-meta" style={{ marginBottom: "20px", display: "flex", alignItems: "center", gap: "15px", flexWrap: "wrap" }}>
                     <div className="author" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                         <div className="avatar img-holder" style={{ width: "40px", height: "40px", borderRadius: "50%" }}>
                             <Image 
@@ -104,6 +104,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     <time dateTime={post.createdAt.toISOString()} style={{ color: "var(--eerie-black_60)" }}>
                         {new Date(post.createdAt).toLocaleDateString()}
                     </time>
+                    
+                    {post.tags.length > 0 && (
+                      <ul style={{ display: "flex", gap: "8px", listStyle: "none", padding: 0 }}>
+                        {post.tags.map((tag: string, index: number) => (
+                          <li key={`${tag}-${index}`}>
+                            <span className="card-tag">{tag}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                  </div>
 
                  <h1 className="h2" style={{ marginBottom: "20px" }}>{post.title}</h1>
