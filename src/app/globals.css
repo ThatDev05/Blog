@@ -1256,3 +1256,27 @@ body.active {
   }
 
 }
+
+/*-----------------------------------*\
+  #SKELETON LOADING
+\*-----------------------------------*/
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      var(--gainsboro) 25%,
+      var(--cultured) 50%,
+      var(--gainsboro) 75%);
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}

@@ -10,7 +10,9 @@ export const dynamic = 'force-dynamic';
 async function getRecentPosts() {
   try {
     const posts = await prisma.post.findMany({
+      where: { published: true },
       orderBy: { createdAt: "desc" },
+
       take: 6,
       include: {
         author: {

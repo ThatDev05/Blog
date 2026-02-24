@@ -2,12 +2,22 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
+import { z } from "zod";
 
 export const dynamic = 'force-dynamic';
 
+// ─── Zod Schema ────────────────────────────────────────────────────────────────
+const createPostSchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters"),
+  content: z.string().min(10, "Content must be at least 10 characters"),
+  published: z.boolean().optional().default(false),
+});
+
+// ─── GET: Only return published posts ─────────────────────────────────────────
 export async function GET() {
   try {
     const posts = await prisma.post.findMany({
+      where: { published: true },
       orderBy: { createdAt: "desc" },
       include: {
         author: {
@@ -16,17 +26,23 @@ export async function GET() {
       },
     });
 
-    // Transform to match frontend BlogPost interface partially
-    const transformedPosts = posts.map((post: { id: string, title: string, content: string, author: { image: string | null, name: string | null }, createdAt: Date }) => ({
-        id: post.id,
-        title: post.title,
-        description: post.content.substring(0, 150) + "...",
-        image: "/images/featured-1.jpg", // Default image as we don't have image upload yet
-        width: 500,
-        height: 600,
-        tags: ["Community"],
-        authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
-        date: post.createdAt.toISOString().split('T')[0],
+    const transformedPosts = posts.map((post: {
+      id: string;
+      title: string;
+      content: string;
+      createdAt: Date;
+      author: { name: string | null; image: string | null };
+    }) => ({
+
+      id: post.id,
+      title: post.title,
+      description: post.content.substring(0, 150) + "...",
+      image: "/images/featured-1.jpg",
+      width: 500,
+      height: 600,
+      tags: ["Community"],
+      authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
+      date: post.createdAt.toISOString().split('T')[0],
     }));
 
     return NextResponse.json(transformedPosts);
@@ -35,6 +51,7 @@ export async function GET() {
   }
 }
 
+// ─── POST: Create a post (with Zod validation + draft support) ──────────────
 export async function POST(req: Request) {
   try {
     const session = await auth();
@@ -43,14 +60,24 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, content } = await req.json();
+    const body = await req.json();
+    const result = createPostSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json(
+        { message: "Validation failed", errors: result.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+
+    const { title, content, published } = result.data;
 
     const post = await prisma.post.create({
       data: {
         title,
         content,
         authorId: session.user.id!,
-        published: true,
+        published,
       },
     });
 

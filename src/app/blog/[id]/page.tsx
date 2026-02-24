@@ -3,8 +3,9 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { CSSProperties } from "react";
-import { featuredPosts, recommendedPosts } from "@/lib/data"; // Fallback/Sidebar data
+import { featuredPosts, recommendedPosts } from "@/lib/data";
 import PostCard from "@/app/components/PostCard";
+import type { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,35 @@ async function getPost(id: string) {
     return null;
   }
 }
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const post = await getPost(id);
+
+  if (!post) {
+    return { title: "Post Not Found – Blogy" };
+  }
+
+  const description = post.content.substring(0, 155);
+
+  return {
+    title: `${post.title} – Blogy`,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: "article",
+      authors: [post.author.name ?? "Blogy Author"],
+      publishedTime: post.createdAt.toISOString(),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+    },
+  };
+}
+
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { id } = await params;
