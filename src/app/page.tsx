@@ -27,14 +27,22 @@ async function getInitialPosts(): Promise<{ posts: PostCardData[]; nextCursor: s
     const page = hasMore ? posts.slice(0, BATCH_SIZE) : posts;
 
     return {
-      posts: page.map((post) => ({
+      posts: page.map((post: {
+        id: string;
+        title: string;
+        content: string;
+        imageUrl: string | null;
+        tags: string[];
+        createdAt: Date;
+        author: { name: string | null; image: string | null };
+      }) => ({
         id: post.id,
         title: post.title,
         description: post.content.substring(0, 150) + "...",
-        image: "/images/featured-1.jpg",
+        image: post.imageUrl || "/images/featured-1.jpg",
         width: 550,
         height: 660,
-        tags: ["Community"],
+        tags: post.tags.length > 0 ? post.tags : ["Community"],
         authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
         authorName: post.author.name ?? "Anonymous",
         date: post.createdAt.toISOString().split("T")[0],

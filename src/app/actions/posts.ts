@@ -21,6 +21,8 @@ function transformPost(post: {
   id: string;
   title: string;
   content: string;
+  imageUrl: string | null;
+  tags: string[];
   createdAt: Date;
   author: { name: string | null; image: string | null };
 }): PostCardData {
@@ -28,10 +30,10 @@ function transformPost(post: {
     id: post.id,
     title: post.title,
     description: post.content.substring(0, 150) + "...",
-    image: "/images/featured-1.jpg",
+    image: post.imageUrl || "/images/featured-1.jpg",
     width: 550,
     height: 660,
-    tags: ["Community"],
+    tags: post.tags.length > 0 ? post.tags : ["Community"],
     authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
     authorName: post.author.name ?? "Anonymous",
     date: post.createdAt.toISOString().split("T")[0],
@@ -75,4 +77,15 @@ export async function getPostsByAuthor(name: string): Promise<PostCardData[]> {
   });
 
   return posts.map(transformPost);
+}
+
+export async function uploadPostImage(base64Image: string, fileName: string) {
+  try {
+    const { uploadToGithub } = await import("@/lib/githubUpload");
+    const imageUrl = await uploadToGithub(base64Image, fileName);
+    return { imageUrl };
+  } catch (error) {
+    console.error("Image upload error:", error);
+    throw new Error(error instanceof Error ? error.message : "Failed to upload image");
+  }
 }

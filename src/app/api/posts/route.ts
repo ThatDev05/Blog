@@ -10,6 +10,8 @@ export const dynamic = 'force-dynamic';
 const createPostSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   content: z.string().min(10, "Content must be at least 10 characters"),
+  imageUrl: z.string().url().optional().or(z.literal("")),
+  tags: z.array(z.string()).optional().default([]),
   published: z.boolean().optional().default(false),
 });
 
@@ -30,6 +32,8 @@ export async function GET() {
       id: string;
       title: string;
       content: string;
+      imageUrl: string | null;
+      tags: string[];
       createdAt: Date;
       author: { name: string | null; image: string | null };
     }) => ({
@@ -37,10 +41,10 @@ export async function GET() {
       id: post.id,
       title: post.title,
       description: post.content.substring(0, 150) + "...",
-      image: "/images/featured-1.jpg",
+      image: post.imageUrl || "/images/featured-1.jpg",
       width: 500,
       height: 600,
-      tags: ["Community"],
+      tags: post.tags.length > 0 ? post.tags : ["Community"],
       authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
       date: post.createdAt.toISOString().split('T')[0],
     }));
@@ -70,12 +74,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const { title, content, published } = result.data;
+    const { title, content, imageUrl, tags, published } = result.data;
 
     const post = await prisma.post.create({
       data: {
         title,
         content,
+        imageUrl: imageUrl || null,
+        tags: tags || [],
         authorId: session.user.id!,
         published,
       },

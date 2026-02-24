@@ -34,14 +34,22 @@ async function searchPosts(query: string) {
       },
     });
 
-    return posts.map((post) => ({
+    return posts.map((post: {
+      id: string;
+      title: string;
+      content: string;
+      imageUrl: string | null;
+      tags: string[];
+      createdAt: Date;
+      author: { name: string | null; image: string | null };
+    }) => ({
       id: post.id,
       title: post.title,
       description: post.content.substring(0, 150) + "...",
-      image: "/images/featured-1.jpg",
+      image: post.imageUrl || "/images/featured-1.jpg",
       width: 550,
       height: 660,
-      tags: ["Community"],
+      tags: post.tags.length > 0 ? post.tags : ["Community"],
       authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
       authorName: post.author.name ?? "Anonymous",
       date: post.createdAt.toISOString().split("T")[0],
@@ -85,7 +93,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </p>
           ) : results.length > 0 ? (
             <ul className="grid-list">
-              {results.map((post, index) => (
+              {results.map((post: any, index: number) => (
                 <li key={`${post.id}-${index}`}>
                   <PostCard post={post} />
                 </li>

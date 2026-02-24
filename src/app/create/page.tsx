@@ -1,22 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { uploadPostImage } from "@/app/actions/posts";
 
 export const dynamic = 'force-dynamic';
 
 interface FieldErrors {
   title?: string[];
   content?: string[];
+  imageUrl?: string[];
+  tags?: string[];
 }
 
 export default function CreatePostPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent, published: boolean) => {
     e.preventDefault();
@@ -25,10 +47,32 @@ export default function CreatePostPage() {
     setLoading(true);
 
     try {
+      let finalImageUrl = "";
+      
+      // 1. Upload image to GitHub if selected
+      if (imagePreview && image) {
+        try {
+          const result = await uploadPostImage(imagePreview, image.name);
+          finalImageUrl = result.imageUrl;
+        } catch (err) {
+          throw new Error("Failed to upload image to GitHub. Please check your configuration.");
+        }
+      }
+
+      // 2. Prepare tags
+      const tagsArray = tags.split(",").map(t => t.trim()).filter(t => t !== "");
+
+      // 3. Create post
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content, published }),
+        body: JSON.stringify({ 
+          title, 
+          content, 
+          published,
+          imageUrl: finalImageUrl,
+          tags: tagsArray
+        }),
       });
 
       const data = await response.json();
@@ -85,6 +129,42 @@ export default function CreatePostPage() {
             )}
           </div>
 
+          <div style={{ marginBottom: "15px" }}>
+            <label htmlFor="image" style={{ display: "block", marginBottom: "5px" }}>Featured Image</label>
+            <input
+              type="file"
+              id="image"
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={handleImageChange}
+              className="email-field"
+              style={{ width: "100%", padding: "10px" }}
+            />
+            {imagePreview && (
+              <div style={{ marginTop: "10px", position: "relative", width: "100%", height: "200px" }}>
+                <Image 
+                  src={imagePreview} 
+                  alt="Preview" 
+                  fill 
+                  style={{ objectFit: "cover", borderRadius: "12px" }} 
+                />
+              </div>
+            )}
+          </div>
+
+          <div style={{ marginBottom: "15px" }}>
+            <label htmlFor="tags" style={{ display: "block", marginBottom: "5px" }}>Tags (comma separated)</label>
+            <input
+              type="text"
+              id="tags"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="email-field"
+              placeholder="e.g. Technology, Lifestyle, Food"
+              style={{ width: "100%", paddingInlineEnd: "20px" }}
+            />
+          </div>
+
           <div style={{ marginBottom: "20px" }}>
             <label htmlFor="content" style={{ display: "block", marginBottom: "5px" }}>Content</label>
             <textarea
@@ -105,7 +185,6 @@ export default function CreatePostPage() {
 
           {error && <p style={{ color: "red", marginBottom: "15px" }}>{error}</p>}
 
-          {/* Two buttons: Save Draft and Publish */}
           <div style={{ display: "flex", gap: "12px" }}>
             <button
               type="button"
