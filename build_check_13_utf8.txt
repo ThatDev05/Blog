@@ -1,0 +1,63 @@
+﻿node.exe :  ΓÜá You are using a non-standard "NODE_ENV" value 
+in your environment. This creates inconsistencies in the 
+project and is strongly advised against. Read more: 
+https://nextjs.org/docs/messages/non-standard-node-env
+At C:\Program Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ΓÜá You are us... 
+   andard-node-env:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Γû▓ Next.js 15.2.9
+   - Environments: .env
+   - Experiments (use with caution):
+     Γ¿» reactCompiler
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/8) ...
+Error: <Html> should not be imported outside of pages/_document.
+Read more: 
+https://nextjs.org/docs/messages/no-document-import-in-page
+    at y (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\.next\server\chunks\548.js:6:1351)
+Error occurred prerendering page "/500". Read more: 
+https://nextjs.org/docs/messages/prerender-error
+Error: <Html> should not be imported outside of pages/_document.
+Read more: 
+https://nextjs.org/docs/messages/no-document-import-in-page
+    at K (C:\Deep Bhattachaejee\CODE\All full stack projects\Blo
+g\node_modules\next\dist\compiled\next-server\pages.runtime.prod
+.js:16:6526)
+    at y (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\.next\server\chunks\548.js:6:1351)
+    at react-stack-bottom-frame (C:\Deep Bhattachaejee\CODE\All 
+full stack projects\Blog\node_modules\react-dom\cjs\react-dom-se
+rver.edge.development.js:8798:18)
+    at renderWithHooks (C:\Deep Bhattachaejee\CODE\All full 
+stack projects\Blog\node_modules\react-dom\cjs\react-dom-server.
+edge.development.js:4722:19)
+    at renderElement (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\node_modules\react-dom\cjs\react-dom-server.edge.d
+evelopment.js:5157:23)
+    at retryNode (C:\Deep Bhattachaejee\CODE\All full stack proj
+ects\Blog\node_modules\react-dom\cjs\react-dom-server.edge.devel
+opment.js:5805:22)
+    at renderNodeDestructive (C:\Deep Bhattachaejee\CODE\All 
+full stack projects\Blog\node_modules\react-dom\cjs\react-dom-se
+rver.edge.development.js:5631:11)
+    at renderElement (C:\Deep Bhattachaejee\CODE\All full stack 
+projects\Blog\node_modules\react-dom\cjs\react-dom-server.edge.d
+evelopment.js:5143:11)
+    at retryNode (C:\Deep Bhattachaejee\CODE\All full stack proj
+ects\Blog\node_modules\react-dom\cjs\react-dom-server.edge.devel
+opment.js:5805:22)
+    at renderNodeDestructive (C:\Deep Bhattachaejee\CODE\All 
+full stack projects\Blog\node_modules\react-dom\cjs\react-dom-se
+rver.edge.development.js:5631:11)
+Export encountered an error on /_error: /500, exiting the build.
+ Γ¿» Next.js build worker exited with code: 1 and signal: null
+
