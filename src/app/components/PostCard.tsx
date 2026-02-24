@@ -3,8 +3,10 @@ import Link from "next/link";
 import { BlogPost } from "@/lib/data";
 import { CSSProperties } from "react";
 
+type PostWithAuthor = BlogPost & { authorName?: string };
+
 interface PostCardProps {
-  post: BlogPost;
+  post: PostWithAuthor;
   compact?: boolean;
 }
 
@@ -32,7 +34,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
           {post.authorImages.map((img, index) => (
             <li className="avatar-item" key={`${img}-${index}`}>
               <Link
-                href="#"
+                href={post.authorName ? `/author/${encodeURIComponent(post.authorName)}` : "#"}
                 className="avatar img-holder"
                 style={
                   {
@@ -45,7 +47,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                   src={img}
                   width={100}
                   height={100}
-                  alt="Author"
+                  alt={post.authorName ?? "Author"}
                   className="img-cover"
                 />
               </Link>

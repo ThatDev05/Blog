@@ -1,45 +1,54 @@
 import { featuredPosts, recommendedPosts } from "@/lib/data";
 import PostCard from "./components/PostCard";
+import RecentPostsList from "./components/RecentPostsList";
 import Image from "next/image";
 import Link from "next/link";
 import { CSSProperties } from "react";
 import { prisma } from "@/lib/prisma";
+import type { PostCardData } from "@/app/actions/posts";
 
-export const dynamic = 'force-dynamic';
+// ISR: regenerate at most once per minute so new posts appear quickly
+export const revalidate = 60;
 
-async function getRecentPosts() {
+const BATCH_SIZE = 6;
+
+async function getInitialPosts(): Promise<{ posts: PostCardData[]; nextCursor: string | null }> {
   try {
     const posts = await prisma.post.findMany({
       where: { published: true },
       orderBy: { createdAt: "desc" },
-
-      take: 6,
+      take: BATCH_SIZE + 1,
       include: {
-        author: {
-          select: { name: true, image: true },
-        },
+        author: { select: { name: true, image: true } },
       },
     });
 
-    return posts.map((post: { id: string, title: string, content: string, author: { image: string | null, name: string | null }, createdAt: Date }) => ({
+    const hasMore = posts.length > BATCH_SIZE;
+    const page = hasMore ? posts.slice(0, BATCH_SIZE) : posts;
+
+    return {
+      posts: page.map((post) => ({
         id: post.id,
         title: post.title,
         description: post.content.substring(0, 150) + "...",
-        image: "/images/featured-1.jpg", 
+        image: "/images/featured-1.jpg",
         width: 550,
         height: 660,
         tags: ["Community"],
         authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
-        date: post.createdAt.toISOString().split('T')[0],
-    }));
+        authorName: post.author.name ?? "Anonymous",
+        date: post.createdAt.toISOString().split("T")[0],
+      })),
+      nextCursor: hasMore ? page[page.length - 1].id : null,
+    };
   } catch (error) {
     console.error("Failed to fetch posts:", error);
-    return [];
+    return { posts: [], nextCursor: null };
   }
 }
 
 export default async function Home() {
-  const recentPosts = await getRecentPosts();
+  const { posts: initialPosts, nextCursor } = await getInitialPosts();
 
   return (
     <article>
@@ -47,7 +56,7 @@ export default async function Home() {
       <section className="section hero" aria-label="home">
         <div className="container">
           <h1 className="h1 hero-title">
-            <strong className="strong">Hey, we’re Blogy.</strong> See our
+            <strong className="strong">Hey, we&apos;re Blogy.</strong> See our
             thoughts, stories and ideas.
           </h1>
         </div>
@@ -75,7 +84,7 @@ export default async function Home() {
         <div className="container">
           <div className="title-wrapper">
             <h2 className="h2 section-title">
-              See what we’ve <strong className="strong">written lately</strong>
+              See what we&apos;ve <strong className="strong">written lately</strong>
             </h2>
 
             <div className="top-author">
@@ -95,7 +104,7 @@ export default async function Home() {
                     />
                   </Link>
                 </li>
-                 <li className="avatar-item">
+                <li className="avatar-item">
                   <Link
                     href="#"
                     className="avatar large img-holder"
@@ -115,19 +124,8 @@ export default async function Home() {
             </div>
           </div>
 
-          <ul className="grid-list">
-            {recentPosts.length > 0 ? (
-                recentPosts.map((post: import("@/lib/data").BlogPost, index: number) => (
-                <li key={`${post.id}-${index}`}>
-                    <PostCard post={post} />
-                </li>
-                ))
-            ) : (
-                <li><p>No posts found. Be the first to create one!</p></li>
-            )}
-          </ul>
-
-          <button className="btn">Load more</button>
+          {/* Client component handles Load More state */}
+          <RecentPostsList initialPosts={initialPosts} initialCursor={nextCursor} />
         </div>
       </section>
 
