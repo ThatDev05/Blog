@@ -54,7 +54,7 @@ export default function CreatePostPage() {
         try {
           const result = await uploadPostImage(imagePreview, image.name);
           finalImageUrl = result.imageUrl;
-        } catch (err) {
+        } catch {
           throw new Error("Failed to upload image to GitHub. Please check your configuration.");
         }
       }

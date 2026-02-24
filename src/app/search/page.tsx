@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import PostCard from "@/app/components/PostCard";
+import { BlogPost } from "@/lib/data";
 import type { Metadata } from "next";
+
+type SearchResult = BlogPost & { authorName: string };
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
@@ -93,7 +96,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </p>
           ) : results.length > 0 ? (
             <ul className="grid-list">
-              {results.map((post: any, index: number) => (
+              {results.map((post: SearchResult, index: number) => (
                 <li key={`${post.id}-${index}`}>
                   <PostCard post={post} />
                 </li>
