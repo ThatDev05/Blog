@@ -8,55 +8,13 @@ export default function LandingPage() {
   return (
     <div className="landing-page-root">
       <style jsx global>{`
-        @keyframes landing-float {
-          0%, 100% { transform: translateY(0) rotate(0); }
-          50% { transform: translateY(-20px) rotate(2deg); }
-        }
-        @keyframes landing-drift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes landing-fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes landing-glow {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.05); }
-        }
-        .landing-page-root {
-          min-height: 100vh;
-          background: #030712;
-          color: white;
-          font-family: 'Inter', system-ui, -apple-system, sans-serif;
-          position: relative;
-          overflow: hidden;
-        }
-        .mesh-gradient {
-          position: absolute;
-          inset: 0;
-          background: 
-            radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 50% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 50%);
-          background-size: 200% 200%;
-          animation: landing-drift 15s ease infinite;
-          z-index: 0;
-        }
         .animate-fade-in {
-          animation: landing-fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: global-fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .delay-1 { animation-delay: 0.1s; opacity: 0; }
         .delay-2 { animation-delay: 0.2s; opacity: 0; }
         .delay-3 { animation-delay: 0.3s; opacity: 0; }
-        .glass-card-premium {
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 24px;
-          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
+        
         .hero-title-gradient {
           background: linear-gradient(to right, #fff, #9ca3af);
           -webkit-background-clip: text;
@@ -78,9 +36,7 @@ export default function LandingPage() {
         }
       `}</style>
 
-      <div className="mesh-gradient" />
-
-      {/* Modern Header Nav */}
+      {/* Modern Header Nav (Always visible for Landing) */}
       <nav style={{
         position: 'absolute',
         top: 0,
@@ -194,7 +150,7 @@ export default function LandingPage() {
             padding: '40px',
             position: 'relative',
             zIndex: 2,
-            animation: 'landing-float 6s ease-in-out infinite'
+            animation: 'global-float 6s ease-in-out infinite'
           }}>
             <div style={{ display: 'flex', gap: '16px', marginBottom: '32px' }}>
               <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'linear-gradient(135deg, #7c3aed, #3b82f6)' }} />
@@ -258,7 +214,7 @@ export default function LandingPage() {
             top: '-100px',
             right: '-100px',
             zIndex: 0,
-            animation: 'landing-glow 8s ease-in-out infinite'
+            animation: 'global-glow 8s ease-in-out infinite'
           }} />
           <div style={{
             position: 'absolute',
@@ -270,7 +226,7 @@ export default function LandingPage() {
             bottom: '-50px',
             left: '0',
             zIndex: 0,
-            animation: 'landing-glow 10s ease-in-out infinite reverse'
+            animation: 'global-glow 10s ease-in-out infinite reverse'
           }} />
         </div>
       </main>

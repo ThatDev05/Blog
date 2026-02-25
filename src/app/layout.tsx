@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable}`}>
+        <div className="premium-mesh-gradient" />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

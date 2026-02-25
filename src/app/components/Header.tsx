@@ -52,6 +52,7 @@ export default function Header() {
               width={129}
               height={40}
               alt="Blogy logo"
+              style={{ filter: 'brightness(0) invert(1)' }}
             />
           </Link>
 

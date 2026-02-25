@@ -12,14 +12,16 @@ function LayoutContent({ children }: { children: ReactNode }) {
   const { status } = useSession();
   const pathname = usePathname();
   
-  // Hide Header/Footer ONLY if on root page AND NOT authenticated
-  const isLandingPage = pathname === "/" && status === "unauthenticated";
+  // Hide Header/Footer on landing (unauth), login, and register pages
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isUnauthLanding = pathname === "/" && status === "unauthenticated";
+  const hideNavigation = isAuthPage || isUnauthLanding;
 
   return (
     <>
-      {!isLandingPage && <Header />}
+      {!hideNavigation && <Header />}
       <main>{children}</main>
-      {!isLandingPage && <Footer />}
+      {!hideNavigation && <Footer />}
     </>
   );
 }
