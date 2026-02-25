@@ -7,6 +7,9 @@ import { CSSProperties } from "react";
 import { prisma } from "@/lib/prisma";
 import type { PostCardData } from "@/app/actions/posts";
 
+import { auth } from "@/auth";
+import LandingPage from "./components/LandingPage";
+
 // ISR: regenerate at most once per minute so new posts appear quickly
 export const revalidate = 60;
 
@@ -56,6 +59,12 @@ async function getInitialPosts(): Promise<{ posts: PostCardData[]; nextCursor: s
 }
 
 export default async function Home() {
+  const session = await auth();
+
+  if (!session) {
+    return <LandingPage />;
+  }
+
   const { posts: initialPosts, nextCursor } = await getInitialPosts();
 
   return (
