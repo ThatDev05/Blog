@@ -310,7 +310,7 @@ body.active {
 }
 
 .newsletter-form .email-field::placeholder {
-  color: var(--eerie-black_60);
+  color: var(--st-sonic-silver);
 }
 
 .newsletter-form .btn {
@@ -592,7 +592,7 @@ body.active {
 }
 
 .search-bar .input-field::placeholder {
-  color: var(--eerie-black);
+  color: var(--st-sonic-silver);
 }
 
 .search-bar .input-field::-webkit-search-cancel-button {

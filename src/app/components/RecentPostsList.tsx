@@ -50,7 +50,7 @@ export default function RecentPostsList({ initialPosts, initialCursor }: RecentP
             {isPending ? "Loading..." : "Load more"}
           </button>
         ) : posts.length > 0 ? (
-          <p style={{ color: "var(--eerie-black_60)", fontSize: "1.4rem" }}>
+          <p style={{ color: "var(--st-sonic-silver)", fontSize: "1.4rem" }}>
             ✨ You&apos;ve seen all posts!
           </p>
         ) : null}

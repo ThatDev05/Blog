@@ -12,6 +12,7 @@ export type PostCardData = {
   tags: string[];
   authorImages: string[];
   authorName: string;
+  authorId: string;
   date: string;
 };
 
@@ -23,6 +24,7 @@ function transformPost(post: {
   content: string;
   imageUrl: string | null;
   tags: string[];
+  authorId: string;
   createdAt: Date;
   author: { name: string | null; image: string | null };
 }): PostCardData {
@@ -36,6 +38,7 @@ function transformPost(post: {
     tags: post.tags.length > 0 ? post.tags : ["Community"],
     authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
     authorName: post.author.name ?? "Anonymous",
+    authorId: post.authorId,
     date: post.createdAt.toISOString().split("T")[0],
   };
 }

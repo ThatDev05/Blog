@@ -35,6 +35,7 @@ async function getInitialPosts(): Promise<{ posts: PostCardData[]; nextCursor: s
         content: string;
         imageUrl: string | null;
         tags: string[];
+        authorId: string;
         createdAt: Date;
         author: { name: string | null; image: string | null };
       }) => ({
@@ -47,6 +48,7 @@ async function getInitialPosts(): Promise<{ posts: PostCardData[]; nextCursor: s
         tags: post.tags.length > 0 ? post.tags : ["Community"],
         authorImages: post.author.image ? [post.author.image] : ["/images/author-1.jpg"],
         authorName: post.author.name ?? "Anonymous",
+        authorId: post.authorId,
         date: post.createdAt.toISOString().split("T")[0],
       })),
       nextCursor: hasMore ? page[page.length - 1].id : null,

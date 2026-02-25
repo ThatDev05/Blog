@@ -9,7 +9,7 @@ import { IoSearchOutline, IoCloseOutline } from "react-icons/io5";
 
 export default function Header() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const isLoggedIn = status === "authenticated";
 
   const [navActive, setNavActive] = useState(false);
@@ -95,27 +95,27 @@ export default function Header() {
                 </>
               )}
 
-              {/* Show user name + Logout when logged IN */}
-              {isLoggedIn && session?.user?.name && (
-                <li className="navbar-item">
-                  <Link
-                    href={`/author/${encodeURIComponent(session.user.name)}`}
-                    className="navbar-link hover:underline"
-                    onClick={closeNav}
-                    style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                  >
-                    {session.user.image && (
-                      <Image
-                        src={session.user.image}
-                        width={28}
-                        height={28}
-                        alt={session.user.name}
-                        style={{ borderRadius: "50%" }}
-                      />
-                    )}
-                    {session.user.name}
-                  </Link>
-                </li>
+              {/* Profile and Logout links when logged IN */}
+              {isLoggedIn && (
+                <>
+                  <li className="navbar-item">
+                    <Link href="/profile" className="navbar-link hover:underline" onClick={closeNav}>
+                      Profile
+                    </Link>
+                  </li>
+                  <li className="navbar-item">
+                    <button 
+                      onClick={() => {
+                        import("next-auth/react").then(m => m.signOut());
+                        closeNav();
+                      }}
+                      className="navbar-link hover:underline"
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
               )}
 
 
