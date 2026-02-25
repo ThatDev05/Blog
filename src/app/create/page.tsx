@@ -31,6 +31,15 @@ export default function CreatePostPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Limit to 200KB
+      if (file.size > 200 * 1024) {
+        setError("Image size must be less than 200KB.");
+        setImage(null);
+        setImagePreview(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+      setError("");
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {

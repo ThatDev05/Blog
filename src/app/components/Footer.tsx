@@ -36,14 +36,14 @@ export default function Footer() {
 
             <li className="footer-list-item">
               <IoLogoFacebook className="ion-icon" aria-hidden="true" />
-              <Link href="#" className="footer-link hover:underline">
+              <Link href="https://facebook.com" target="_blank" className="footer-link hover:underline">
                 Facebook
               </Link>
             </li>
 
             <li className="footer-list-item">
               <IoLogoTwitter className="ion-icon" aria-hidden="true" />
-              <Link href="#" className="footer-link hover:underline">
+              <Link href="https://twitter.com" target="_blank" className="footer-link hover:underline">
                 Twitter
               </Link>
             </li>
@@ -174,13 +174,13 @@ export default function Footer() {
 
         <div className="section footer-bottom">
           <p className="copyright">
-            &copy; Blogy 2024. Published by{" "}
-            <Link href="#" className="copyright-link hover:underline">
-              my18story
+            &copy; {new Date().getFullYear()}. Published by{" "}
+            <Link href="https://github.com/ThatDev05" target="_blank" className="copyright-link hover:underline">
+              Deep Bhattacharjee
             </Link>
           </p>
         </div>
       </div>
     </footer>
-  );
+  );  
 }

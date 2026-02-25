@@ -1,6 +1,5 @@
-"use client";
-
 import Link from "next/link";
+import Image from "next/image";
 import { IoArrowForwardOutline } from "react-icons/io5";
 
 export default function LandingPage() {
@@ -24,12 +23,23 @@ export default function LandingPage() {
           display: 'grid',
           gridTemplateColumns: '1.2fr 1fr',
           gap: '60px',
+          paddingTop: '40px',
           alignItems: 'center',
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '0 20px'
         }}>
           <div className="hero-content">
+            <div className="landing-logo" style={{ marginBottom: '40px' }}>
+              <Link href="/">
+                <Image 
+                  src="/images/logo.svg" 
+                  width={129} 
+                  height={40} 
+                  alt="Blogy logo" 
+                />
+              </Link>
+            </div>
             <h1 className="h1 hero-title" style={{
               fontSize: '4rem',
               lineHeight: '1.1',
