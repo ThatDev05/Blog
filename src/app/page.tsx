@@ -6,7 +6,6 @@ import Link from "next/link";
 import { CSSProperties } from "react";
 import { prisma } from "@/lib/prisma";
 import type { PostCardData } from "@/app/actions/posts";
-
 import { auth } from "@/auth";
 import LandingPage from "./components/LandingPage";
 
