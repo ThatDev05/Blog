@@ -142,26 +142,48 @@ export default function Header() {
       </header>
 
       {/* Search bar */}
-      <div className={`search-bar ${searchActive ? "active" : ""}`} data-search-bar>
-        <form className="input-wrapper" onSubmit={handleSearch}>
-          <input
-            type="search"
-            name="search"
-            placeholder="Search posts..."
-            className="input-field"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            autoFocus={searchActive}
-          />
-          <button
-            className="search-close-btn"
-            type="button"
-            aria-label="close search bar"
-            onClick={closeSearch}
-          >
-            <IoCloseOutline className="ion-icon" strokeWidth="20" aria-hidden="true" />
-          </button>
-        </form>
+      <div className={`search-bar ${searchActive ? "active" : ""}`} data-search-bar style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center' 
+      }}>
+        <div className="container" style={{ maxWidth: '800px', width: '100%', position: 'relative' }}>
+          <form className="input-wrapper" onSubmit={handleSearch} style={{ width: '100%' }}>
+            <input
+              type="search"
+              name="search"
+              placeholder="Search posts..."
+              className="input-field"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              autoFocus={searchActive}
+              style={{ 
+                textAlign: 'center', 
+                fontSize: '4rem', 
+                padding: '20px', 
+                background: 'transparent',
+                fontWeight: 700 
+              }}
+            />
+            <button
+              className="search-close-btn"
+              type="button"
+              aria-label="close search bar"
+              onClick={closeSearch}
+              style={{ 
+                position: 'absolute', 
+                right: '0', 
+                top: '50%', 
+                transform: 'translateY(-50%)',
+                fontSize: '4rem',
+                opacity: 0.6
+              }}
+            >
+              <IoCloseOutline className="ion-icon" strokeWidth="20" aria-hidden="true" />
+            </button>
+          </form>
+          <p style={{ textAlign: 'center', color: '#9ca3af', marginTop: '10px' }}>Press ESC to close</p>
+        </div>
       </div>
 
       <div

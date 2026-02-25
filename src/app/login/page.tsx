@@ -38,15 +38,34 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="section login">
-      <div className="container" style={{ maxWidth: "400px" }}>
-        <h1 className="h2 section-title" style={{ textAlign: "center" }}>
+    <section className="section login" style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      padding: '20px'
+    }}>
+      <div className="glass-card-premium" style={{ 
+        maxWidth: "450px", 
+        width: '100%', 
+        padding: '40px',
+        margin: '0 auto'
+      }}>
+        <h1 className="hero-title-gradient" style={{ 
+          textAlign: "center", 
+          fontSize: '3rem', 
+          fontWeight: 800,
+          marginBottom: '30px',
+          background: 'linear-gradient(to right, #fff, #9ca3af)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
           Login
         </h1>
 
         <form onSubmit={handleSubmit} className="newsletter-form" style={{ maxWidth: "100%" }}>
-          <div style={{ marginBottom: "15px" }}>
-            <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>Email</label>
+          <div style={{ marginBottom: "20px" }}>
+            <label htmlFor="email" style={{ display: "block", marginBottom: "8px", color: '#9ca3af', fontSize: '1.4rem' }}>Email</label>
             <input
               type="email"
               id="email"
@@ -55,12 +74,18 @@ export default function LoginPage() {
               required
               className="email-field"
               placeholder="Enter your email"
-              style={{ width: "100%", paddingInlineEnd: "20px" }}
+              style={{ 
+                width: "100%", 
+                paddingInlineEnd: "20px",
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: 'white'
+              }}
             />
           </div>
 
-          <div style={{ marginBottom: "20px" }}>
-            <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>Password</label>
+          <div style={{ marginBottom: "30px" }}>
+            <label htmlFor="password" style={{ display: "block", marginBottom: "8px", color: '#9ca3af', fontSize: '1.4rem' }}>Password</label>
             <input
               type="password"
               id="password"
@@ -69,19 +94,35 @@ export default function LoginPage() {
               required
               className="email-field"
               placeholder="Enter your password"
-              style={{ width: "100%", paddingInlineEnd: "20px" }}
+              style={{ 
+                width: "100%", 
+                paddingInlineEnd: "20px",
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: 'white'
+              }}
             />
           </div>
 
-          {error && <p style={{ color: "red", marginBottom: "15px" }}>{error}</p>}
+          {error && <p style={{ color: "#ef4444", marginBottom: "20px", textAlign: 'center' }}>{error}</p>}
 
-          <button type="submit" className="btn" style={{ position: "static", width: "100%" }}>
+          <button type="submit" className="btn-premium" style={{ 
+            width: "100%", 
+            background: 'linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%)',
+            color: 'white',
+            padding: '14px',
+            borderRadius: '12px',
+            fontWeight: 700,
+            fontSize: '1.6rem',
+            border: 'none',
+            cursor: 'pointer'
+          }}>
             Sign In
           </button>
         </form>
 
-        <p style={{ marginTop: "20px", textAlign: "center" }}>
-          Don&apos;t have an account? <Link href="/register" className="hover:underline" style={{ display: "inline" }}>Sign up</Link>
+        <p style={{ marginTop: "24px", textAlign: "center", color: '#9ca3af' }}>
+          Don&apos;t have an account? <Link href="/register" className="hover:underline" style={{ display: "inline", color: '#a78bfa' }}>Sign up</Link>
         </p>
       </div>
     </section>
