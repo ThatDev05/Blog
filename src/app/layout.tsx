@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import ClientLayout from "./components/ClientLayout";
+import { Inter, Outfit, Roboto } from "next/font/google";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import ClientLayout from "./components/ClientLayout";
 
-const inter = Inter({
-  variable: "--ff-inter",
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const roboto = Roboto({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["400", "500", "700"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
-  title: "Blogy",
-  description: "Blogy - Hey, we’re Blogy. See our thoughts, stories and ideas.",
+  title: "Blogy – Modern Blogging Platform",
+  description: "A premium blogging experience built with Next.js and Prisma.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}`}>
-        <div className="premium-mesh-gradient" />
-        <ClientLayout>{children}</ClientLayout>
+      <body className={`${inter.variable} ${outfit.variable} ${roboto.variable}`}>
+        <SessionProvider>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        </SessionProvider>
       </body>
     </html>
   );
